@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="fikalistaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblEmailChanges">
+          <Key>
+            <PropertyRef Name="emailChangeId" />
+          </Key>
+          <Property Name="emailChangeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FikaMemberId" Type="int" Nullable="false" />
+          <Property Name="ChangeToken" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChangeDoneDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFikaChanges">
+          <Key>
+            <PropertyRef Name="changeId" />
+          </Key>
+          <Property Name="changeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChangeFromMemberId" Type="int" Nullable="false" />
+          <Property Name="ChangeToMemberId" Type="int" />
+          <Property Name="ChangeDone" Type="bit" Nullable="false" />
+          <Property Name="changeToken" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateChanged" Type="date" />
+        </EntityType>
+        <EntityType Name="tblFikaMembers">
+          <Key>
+            <PropertyRef Name="fikapersonId" />
+          </Key>
+          <Property Name="fikapersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NextFika" Type="date" />
+        </EntityType>
+        <Association Name="FK_tblFikaChanges_tblFikaChanges">
+          <End Role="tblFikaChanges" Type="Self.tblFikaChanges" Multiplicity="1" />
+          <End Role="tblFikaChanges1" Type="Self.tblFikaChanges" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblFikaChanges">
+              <PropertyRef Name="changeId" />
+            </Principal>
+            <Dependent Role="tblFikaChanges1">
+              <PropertyRef Name="changeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fikalistaModelStoreContainer">
+          <EntitySet Name="tblEmailChanges" EntityType="Self.tblEmailChanges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFikaChanges" EntityType="Self.tblFikaChanges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFikaMembers" EntityType="Self.tblFikaMembers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblFikaChanges_tblFikaChanges" Association="Self.FK_tblFikaChanges_tblFikaChanges">
+            <End Role="tblFikaChanges" EntitySet="tblFikaChanges" />
+            <End Role="tblFikaChanges1" EntitySet="tblFikaChanges" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="fikalistaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblEmailChanges">
+          <Key>
+            <PropertyRef Name="emailChangeId" />
+          </Key>
+          <Property Name="emailChangeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FikaMemberId" Type="Int32" Nullable="false" />
+          <Property Name="ChangeToken" Type="Guid" Nullable="false" />
+          <Property Name="ChangeDoneDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="tblFikaChanges">
+          <Key>
+            <PropertyRef Name="changeId" />
+          </Key>
+          <Property Name="changeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChangeFromMemberId" Type="Int32" Nullable="false" />
+          <Property Name="ChangeToMemberId" Type="Int32" />
+          <Property Name="ChangeDone" Type="Boolean" Nullable="false" />
+          <Property Name="changeToken" Type="Guid" Nullable="false" />
+          <Property Name="DateChanged" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblFikaChanges1" Relationship="Self.FK_tblFikaChanges_tblFikaChanges" FromRole="tblFikaChanges" ToRole="tblFikaChanges1" />
+          <NavigationProperty Name="tblFikaChanges2" Relationship="Self.FK_tblFikaChanges_tblFikaChanges" FromRole="tblFikaChanges1" ToRole="tblFikaChanges" />
+        </EntityType>
+        <EntityType Name="tblFikaMembers">
+          <Key>
+            <PropertyRef Name="fikapersonId" />
+          </Key>
+          <Property Name="fikapersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NextFika" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_tblFikaChanges_tblFikaChanges">
+          <End Role="tblFikaChanges" Type="Self.tblFikaChanges" Multiplicity="1" />
+          <End Role="tblFikaChanges1" Type="Self.tblFikaChanges" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblFikaChanges">
+              <PropertyRef Name="changeId" />
+            </Principal>
+            <Dependent Role="tblFikaChanges1">
+              <PropertyRef Name="changeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fikalistaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblEmailChanges" EntityType="Self.tblEmailChanges" />
+          <EntitySet Name="tblFikaChanges" EntityType="Self.tblFikaChanges" />
+          <EntitySet Name="tblFikaMembers" EntityType="Self.tblFikaMembers" />
+          <AssociationSet Name="FK_tblFikaChanges_tblFikaChanges" Association="Self.FK_tblFikaChanges_tblFikaChanges">
+            <End Role="tblFikaChanges" EntitySet="tblFikaChanges" />
+            <End Role="tblFikaChanges1" EntitySet="tblFikaChanges" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="fikalistaModelStoreContainer" CdmEntityContainer="fikalistaEntities">
+          <EntitySetMapping Name="tblEmailChanges">
+            <EntityTypeMapping TypeName="fikalistaModel.tblEmailChanges">
+              <MappingFragment StoreEntitySet="tblEmailChanges">
+                <ScalarProperty Name="emailChangeId" ColumnName="emailChangeId" />
+                <ScalarProperty Name="FikaMemberId" ColumnName="FikaMemberId" />
+                <ScalarProperty Name="ChangeToken" ColumnName="ChangeToken" />
+                <ScalarProperty Name="ChangeDoneDate" ColumnName="ChangeDoneDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFikaChanges">
+            <EntityTypeMapping TypeName="fikalistaModel.tblFikaChanges">
+              <MappingFragment StoreEntitySet="tblFikaChanges">
+                <ScalarProperty Name="changeId" ColumnName="changeId" />
+                <ScalarProperty Name="ChangeFromMemberId" ColumnName="ChangeFromMemberId" />
+                <ScalarProperty Name="ChangeToMemberId" ColumnName="ChangeToMemberId" />
+                <ScalarProperty Name="ChangeDone" ColumnName="ChangeDone" />
+                <ScalarProperty Name="changeToken" ColumnName="changeToken" />
+                <ScalarProperty Name="DateChanged" ColumnName="DateChanged" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFikaMembers">
+            <EntityTypeMapping TypeName="fikalistaModel.tblFikaMembers">
+              <MappingFragment StoreEntitySet="tblFikaMembers">
+                <ScalarProperty Name="fikapersonId" ColumnName="fikapersonId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NextFika" ColumnName="NextFika" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

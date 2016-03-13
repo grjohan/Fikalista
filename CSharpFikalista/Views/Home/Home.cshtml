@@ -1,0 +1,26 @@
+﻿@model CSharpFikalista.Models.FikaListaModel
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="jumbotron" style="margin-top:15px">
+    <h2>Veckans fika</h2>
+    @{ var temp = @Model.members.First();}
+    @temp.MemberName - @temp.DateTimeHasFika
+    
+</div>
+<div class="jumbotron">
+    <h2>Efterföljande fikaomgångar</h2>
+    <ul>
+        @foreach (var member in Model.members.Skip(1))
+        {
+            <li>
+                @member.MemberName - @member.DateTimeHasFika
+            </li>
+        }
+    </ul>
+
+</div>
+
+
