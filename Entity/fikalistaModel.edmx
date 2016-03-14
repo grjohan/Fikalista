@@ -4,7 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="fikalistaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="fikalistaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'fikalista.dbo.tblAdministrators' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblAdministrators">
+          <Key>
+            <PropertyRef Name="AdministratorId" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="Salt" />
+          </Key>
+          <Property Name="AdministratorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="19" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="Salt" Type="varchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblEmailChanges">
           <Key>
             <PropertyRef Name="emailChangeId" />
@@ -50,13 +64,20 @@
           <EntitySet Name="tblEmailChanges" EntityType="Self.tblEmailChanges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFikaChanges" EntityType="Self.tblFikaChanges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFikaMembers" EntityType="Self.tblFikaMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAdministrators" EntityType="Self.tblAdministrators" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblAdministrators].[AdministratorId] AS [AdministratorId], 
+    [tblAdministrators].[Username] AS [Username], 
+    [tblAdministrators].[Password] AS [Password], 
+    [tblAdministrators].[Salt] AS [Salt]
+    FROM [dbo].[tblAdministrators] AS [tblAdministrators]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_tblFikaChanges_tblFikaChanges" Association="Self.FK_tblFikaChanges_tblFikaChanges">
             <End Role="tblFikaChanges" EntitySet="tblFikaChanges" />
             <End Role="tblFikaChanges1" EntitySet="tblFikaChanges" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="fikalistaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -111,7 +132,20 @@
             <End Role="tblFikaChanges" EntitySet="tblFikaChanges" />
             <End Role="tblFikaChanges1" EntitySet="tblFikaChanges" />
           </AssociationSet>
+          <EntitySet Name="tblAdministrators" EntityType="fikalistaModel.tblAdministrators" />
         </EntityContainer>
+        <EntityType Name="tblAdministrators">
+          <Key>
+            <PropertyRef Name="AdministratorId" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="Salt" />
+          </Key>
+          <Property Name="AdministratorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Salt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -147,6 +181,16 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="NextFika" ColumnName="NextFika" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAdministrators">
+            <EntityTypeMapping TypeName="fikalistaModel.tblAdministrators">
+              <MappingFragment StoreEntitySet="tblAdministrators">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="AdministratorId" ColumnName="AdministratorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

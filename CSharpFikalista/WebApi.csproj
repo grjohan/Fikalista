@@ -163,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FikaListaModel.cs" />
+    <Compile Include="Models\FikaMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -217,9 +218,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Entity\Entity.csproj">
-      <Project>{4fc97f28-4e6f-41a9-bcb3-3917016f59e0}</Project>
-      <Name>Entity</Name>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{1ca26c3b-b85e-4eec-9f0c-53bba29660de}</Project>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

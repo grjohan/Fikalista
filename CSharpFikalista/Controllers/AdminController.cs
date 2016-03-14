@@ -3,32 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CSharpFikalista.Models;
+using WebApi.Models;
+using Service;
 
-namespace CSharpFikalista.Controllers
+namespace WebApi.Controllers
 {
     public class AdminController : Controller
     {
+        private Service.Member.IMemberService _memberService;
+        private Service.Email.IEmailService _emailService;
         public ActionResult Update()
         {
-            // Create a model
+            _memberService.GiveAllOldMembersNewTimes();
+            var firstMember = _memberService.GetMemberWithNextFika();
+            _emailService.SendEmailToRecipient(firstMember.Email, "Påminnelse om fika", "Hej, Detta är en påminnelse om att du har fika: " + firstMember.NextFika.ToShortDateString());
             var tempModel = new FikaListaModel();
-            // See if there is someone that has previously had
-            var personToMove = tempModel.members.Where(member =>  DateTime.Parse(member.DateTimeHasFika) < DateTime.Now);
-            if (personToMove == null)
-            {
-                return View();
-            }
-            else
-            {
-                foreach (var person in personToMove)
-                {
-                    person.MoveToBackOfList();
-                }
-            }
-            tempModel = new FikaListaModel();
-            var firstMember = tempModel.members.First();
-            src.eMailHandler.sendEmailAboutNewFika(firstMember.Email, firstMember.DateTimeHasFika);
+            tempModel.Members = _memberService.GetAllListMembers().Select(o => new FikaMember { DateTimeHasFika = o.NextFika ,Email =  o.Email,MemberName = o.Name, id = o.id}).ToList();
             return View("Home", tempModel);
         }
     }

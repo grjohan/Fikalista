@@ -3,7 +3,7 @@ using System.Data.Entity.Core.EntityClient;
 
 namespace Entity
 {
-    class FikaListaConfiguration
+    public class FikaListaConfiguration
     {
         public static string FikalistaEntititiesConnection
         {

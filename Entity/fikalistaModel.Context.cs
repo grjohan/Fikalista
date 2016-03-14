@@ -28,5 +28,6 @@ namespace Entity
         public virtual DbSet<tblEmailChanges> tblEmailChanges { get; set; }
         public virtual DbSet<tblFikaChanges> tblFikaChanges { get; set; }
         public virtual DbSet<tblFikaMembers> tblFikaMembers { get; set; }
+        public virtual DbSet<tblAdministrators> tblAdministrators { get; set; }
     }
 }
